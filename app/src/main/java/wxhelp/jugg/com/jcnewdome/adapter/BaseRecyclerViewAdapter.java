@@ -1,4 +1,4 @@
-package wxhelp.jugg.com.jcnewdome;
+package wxhelp.jugg.com.jcnewdome.adapter;
 
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +39,7 @@ import androidx.recyclerview.widget.RecyclerView;
  * <p>
  * TYPE_EMPTYVIEW 由于有些自定义的type 用的是2  所以取值为-1
  */
-abstract class BaseRecyclerViewAdapter<T extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<T> {
+public abstract class BaseRecyclerViewAdapter<T extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<T> {
 
     public static final int TYPE_HEADER = 0;
     //    public static final int TYPE_EMPTY = 1;

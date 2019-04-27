@@ -27,6 +27,7 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import wxhelp.jugg.com.jcnewdome.adapter.BaseRecyclerViewAdapter;
 
 /**
  * @function

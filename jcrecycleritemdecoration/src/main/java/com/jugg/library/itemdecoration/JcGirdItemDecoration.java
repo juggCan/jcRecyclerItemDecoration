@@ -22,6 +22,7 @@ import android.graphics.Rect;
 import android.util.Log;
 import android.view.View;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -66,7 +67,12 @@ public class JcGirdItemDecoration implements IJcItemDecoration {
         this.vertSpace = config.getVertSpace();
         this.startMarginSpace = config.getStartMarginSpace();
         this.endMarginSpace = config.getEndMarginSpace();
-        this.typeList = config.getTypeList();
+
+        if (config.getTypeList() != null) {
+            this.typeList = config.getTypeList();
+        } else {
+            this.typeList = new ArrayList<>();
+        }
     }
 
     @Override

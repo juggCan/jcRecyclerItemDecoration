@@ -1,7 +1,7 @@
 /*
  *Recyclerview  点击事件接口
  */
-package wxhelp.jugg.com.jcnewdome;
+package wxhelp.jugg.com.jcnewdome.adapter;
 
 import android.view.View;
 
