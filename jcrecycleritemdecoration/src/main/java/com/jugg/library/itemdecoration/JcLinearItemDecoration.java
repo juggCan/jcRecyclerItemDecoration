@@ -1,4 +1,4 @@
-package wxhelp.jugg.com.jcnewdome;
+package com.jugg.library.itemdecoration;
 //  ┏┓　　　┏┓
 //┏┛┻━━━┛┻┓
 //┃　　　　　　　┃
@@ -19,8 +19,9 @@ package wxhelp.jugg.com.jcnewdome;
 
 
 import android.graphics.Rect;
-import android.util.Log;
 import android.view.View;
+
+import java.util.List;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -49,6 +50,7 @@ public class JcLinearItemDecoration implements IJcItemDecoration {
     //item与recycler的边距
     private int endMarginSpace = 0;
 
+    private List<JcSpecialType> typeList;
 
     public JcLinearItemDecoration(JcItemDecorationConfig config) {
         this.headSpace = config.getHeadSpace();
@@ -57,18 +59,36 @@ public class JcLinearItemDecoration implements IJcItemDecoration {
         this.vertSpace = config.getVertSpace();
         this.startMarginSpace = config.getStartMarginSpace();
         this.endMarginSpace = config.getEndMarginSpace();
+        this.typeList = config.getTypeList();
     }
 
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-        LinearLayoutManager layoutManager = (GridLayoutManager) parent.getLayoutManager();
+        LinearLayoutManager layoutManager = (LinearLayoutManager) parent.getLayoutManager();
         int childPosition = parent.getChildAdapterPosition(view);
         int cout = parent.getAdapter().getItemCount();
 
+
+        boolean isSpecialType = false;
+        //处理自定义view 的情况
+        for (JcSpecialType type : this.typeList) {
+            if (type.getType() == parent.getAdapter().getItemViewType(childPosition)) {
+                outRect.top = type.getTop();
+                outRect.right = type.getRight();
+                outRect.bottom = type.getBottom();
+                outRect.left = type.getLeft();
+                isSpecialType = true;
+            }
+        }
+        if (isSpecialType) {
+            return;
+        }
+
+
         if (layoutManager.getOrientation() == RecyclerView.VERTICAL) {
-            orientationVertical(parent, layoutManager, childPosition, cout, outRect);
+            orientationVertical(childPosition, cout, outRect);
         } else {
-            orientationHorizontal(parent, layoutManager, childPosition, cout, outRect);
+            orientationHorizontal(childPosition, cout, outRect);
         }
     }
 
@@ -78,7 +98,7 @@ public class JcLinearItemDecoration implements IJcItemDecoration {
 
 
     //竖向布局
-    private void orientationVertical(RecyclerView parent, LinearLayoutManager layoutManager, int childPosition, int cout, Rect outRect) {
+    private void orientationVertical(int childPosition, int cout, Rect outRect) {
         //判断是否在第一排
         if (getindex(childPosition) == 0) {
             outRect.top = headSpace;
@@ -94,8 +114,19 @@ public class JcLinearItemDecoration implements IJcItemDecoration {
     }
 
     //横向布局HORIZONTAL
-    private void orientationHorizontal(RecyclerView parent, LinearLayoutManager layoutManager, int childPosition, int cout, Rect outRect) {
+    private void orientationHorizontal(int childPosition, int cout, Rect outRect) {
         //判断是否在第一排
+        //判断是否在第一排
+        if (getindex(childPosition) == 0) {
+            outRect.left = headSpace;
+            outRect.right = horiSpace;
+        } else if ((cout - 1) == childPosition) {
+            outRect.right = endMarginSpace;
+        } else {
+            outRect.right = horiSpace;
+        }
 
+        outRect.top = startMarginSpace;
+        outRect.bottom = endMarginSpace;
     }
 }

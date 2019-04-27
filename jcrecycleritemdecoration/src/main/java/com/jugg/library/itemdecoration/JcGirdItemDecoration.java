@@ -1,4 +1,4 @@
-package wxhelp.jugg.com.jcnewdome;
+package com.jugg.library.itemdecoration;
 //  ┏┓　　　┏┓
 //┏┛┻━━━┛┻┓
 //┃　　　　　　　┃
@@ -21,6 +21,8 @@ package wxhelp.jugg.com.jcnewdome;
 import android.graphics.Rect;
 import android.util.Log;
 import android.view.View;
+
+import java.util.List;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -52,6 +54,8 @@ public class JcGirdItemDecoration implements IJcItemDecoration {
     //item与recycler的边距
     private int endMarginSpace = 0;
 
+    private List<JcSpecialType> typeList;
+
 
     private int[] cacheRight;
 
@@ -62,6 +66,7 @@ public class JcGirdItemDecoration implements IJcItemDecoration {
         this.vertSpace = config.getVertSpace();
         this.startMarginSpace = config.getStartMarginSpace();
         this.endMarginSpace = config.getEndMarginSpace();
+        this.typeList = config.getTypeList();
     }
 
     @Override
@@ -75,6 +80,22 @@ public class JcGirdItemDecoration implements IJcItemDecoration {
             cacheRight = new int[spanCount];
         }
 
+        boolean isSpecialType = false;
+        //处理自定义view 的情况
+        for (JcSpecialType type : this.typeList) {
+            if (type.getType() == parent.getAdapter().getItemViewType(childPosition)) {
+                outRect.top = type.getTop();
+                outRect.right = type.getRight();
+                outRect.bottom = type.getBottom();
+                outRect.left = type.getLeft();
+                isSpecialType = true;
+            }
+        }
+        if (isSpecialType) {
+            return;
+        }
+
+
         if (layoutManager.getOrientation() == RecyclerView.VERTICAL) {
             orientationVertical(parent, layoutManager, childPosition, spanCount, outRect, lp);
         } else {
@@ -85,6 +106,8 @@ public class JcGirdItemDecoration implements IJcItemDecoration {
 
     //竖向布局
     private void orientationVertical(RecyclerView parent, GridLayoutManager layoutManager, int childPosition, int spanCount, Rect outRect, GridLayoutManager.LayoutParams lp) {
+
+
         //判断是否在第一排
         int spanGroup = layoutManager.getSpanSizeLookup().getSpanGroupIndex(childPosition, spanCount);
         if (spanGroup == 0) {//第一排的需要上面
@@ -98,6 +121,8 @@ public class JcGirdItemDecoration implements IJcItemDecoration {
         } else {
             outRect.bottom = vertSpace;
         }
+
+
         //占满一屏的情况
         if (lp.getSpanSize() == spanCount) {
             outRect.left = startMarginSpace;

@@ -1,7 +1,10 @@
-package wxhelp.jugg.com.jcnewdome;
+package com.jugg.library.itemdecoration;
 
 import android.graphics.Rect;
 import android.view.View;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
  * Version:  1.0.0V
  */
 
-public class JcRecyclerGridItemDecoration extends RecyclerView.ItemDecoration {
+public class JcRecyclerItemDecoration extends RecyclerView.ItemDecoration {
 
 
     private JcItemDecorationConfig config;
@@ -23,7 +26,7 @@ public class JcRecyclerGridItemDecoration extends RecyclerView.ItemDecoration {
 //    private int itemWidth = 0;
 
 
-    public JcRecyclerGridItemDecoration(Buidle buidle) {
+    public JcRecyclerItemDecoration(Buidle buidle) {
         this.config = buidle.config;
         this.jcItemDecoration = buidle.jcItemDecoration;
     }
@@ -37,7 +40,7 @@ public class JcRecyclerGridItemDecoration extends RecyclerView.ItemDecoration {
             return;
         }
 
-        LinearLayoutManager layoutManager = (GridLayoutManager) parent.getLayoutManager();
+        RecyclerView.LayoutManager layoutManager = parent.getLayoutManager();
         if (layoutManager instanceof GridLayoutManager) {
             jcItemDecoration = new JcGirdItemDecoration(config);
         } else if (layoutManager instanceof LinearLayoutManager) {
@@ -48,7 +51,7 @@ public class JcRecyclerGridItemDecoration extends RecyclerView.ItemDecoration {
     }
 
 
-    static class Buidle {
+    public static class Buidle {
 
         private JcItemDecorationConfig config;
         private IJcItemDecoration jcItemDecoration;
@@ -64,10 +67,30 @@ public class JcRecyclerGridItemDecoration extends RecyclerView.ItemDecoration {
 //            this.itemWidth = itemWidth;
         }
 
+
         public Buidle setJcItemDecoration(IJcItemDecoration jcItemDecoration) {
             this.jcItemDecoration = jcItemDecoration;
             return this;
         }
+
+        //  0 -1
+        public Buidle DefaultSpecialType() {
+            List<JcSpecialType> specialTypes = new ArrayList<>();
+            specialTypes.add(new JcSpecialType(0, 0, 0, 0, 0));
+            specialTypes.add(new JcSpecialType(-1, 0, 0, 0, 0));
+            config.setTypeList(specialTypes);
+            return this;
+        }
+
+        public Buidle setSpecialTypes(JcSpecialType... types) {
+            List<JcSpecialType> specialTypes = new ArrayList<>();
+            for (JcSpecialType type : types) {
+                specialTypes.add(type);
+            }
+            config.setTypeList(specialTypes);
+            return this;
+        }
+
 
         public Buidle setItemWidth(int itemWidth) {
             config.setItemWidth(itemWidth);
@@ -104,8 +127,8 @@ public class JcRecyclerGridItemDecoration extends RecyclerView.ItemDecoration {
             return this;
         }
 
-        public JcRecyclerGridItemDecoration buidle() {
-            return new JcRecyclerGridItemDecoration(this);
+        public JcRecyclerItemDecoration buidle() {
+            return new JcRecyclerItemDecoration(this);
         }
     }
 }

@@ -1,4 +1,4 @@
-package wxhelp.jugg.com.jcnewdome;
+package com.jugg.library.itemdecoration;
 //  ┏┓　　　┏┓
 //┏┛┻━━━┛┻┓
 //┃　　　　　　　┃

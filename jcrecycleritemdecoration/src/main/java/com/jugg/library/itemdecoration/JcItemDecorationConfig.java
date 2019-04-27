@@ -1,4 +1,4 @@
-package wxhelp.jugg.com.jcnewdome;
+package com.jugg.library.itemdecoration;
 //  ┏┓　　　┏┓
 //┏┛┻━━━┛┻┓
 //┃　　　　　　　┃
@@ -18,6 +18,8 @@ package wxhelp.jugg.com.jcnewdome;
 //     ┗┻┛　┗┻┛
 
 
+import java.util.List;
+
 /**
  * @function
  * @Author: jugg can
@@ -35,10 +37,19 @@ public class JcItemDecorationConfig {
     private int endMarginSpace = 0;
     private int itemWidth = 0;
 
+    private List<JcSpecialType> typeList;
+
+    public List<JcSpecialType> getTypeList() {
+        return typeList;
+    }
 
     public JcItemDecorationConfig(int horiSpace, int vertSpace) {
         this.horiSpace = horiSpace;
         this.vertSpace = vertSpace;
+    }
+
+    public void setTypeList(List<JcSpecialType> typeList) {
+        this.typeList = typeList;
     }
 
     public void setHeadSpace(int headSpace) {
